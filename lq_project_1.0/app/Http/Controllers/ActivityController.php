@@ -65,8 +65,8 @@ class ActivityController extends Controller
         $code = 400;
         $msg = "success";
         $wechat_id = Route::input("wechat_id");
-        $no_participate_list = DB::select("select * from activity where activity_id not  in (select activity_id from user_acti where wechat_id=?)", [$wechat_id]);
-        $participate_list = DB::select("select * from activity where activity_id  in (select activity_id from user_acti where wechat_id=?)", [$wechat_id]);
+        $no_participate_list = DB::select("select * from activity where activity_id not  in (select activity_id from user_acti where wechat_id=?) order by  date.DESC,time.DESC", [$wechat_id]);
+        $participate_list = DB::select("select * from activity where activity_id  in (select activity_id from user_acti where wechat_id=?) order by date.DESC,time.DESC", [$wechat_id]);
         if (count($participate_list) != 0 | count($no_participate_list) != 0) {
             $code = 200;
             return response()->json(["code" => $code, "msg" => $msg, "participate_list" => $participate_list, "no_participate_list" => $no_participate_list]);
@@ -92,7 +92,7 @@ class ActivityController extends Controller
     {
         $wechatId = Route::input("wechat_id");
         $activityId = Route::input("activity_id");
-        echo "$activityId:$wechatId";
+//        echo "$activityId:$wechatId";
         $code = 400;
         $msg = "success";
 
